@@ -1,4 +1,4 @@
-/* General Body & Background */
+/* --- General Body & Background --- */
 body {
   min-height: 100vh;
   width: 100%;
@@ -12,7 +12,7 @@ body {
   overflow: hidden;
 }
 
-/* Common page styling */
+/* --- Common Page Layout --- */
 .page {
   width: 100%;
   height: 100%;
@@ -32,19 +32,29 @@ body {
   height: 260px;
 }
 
-h1,
-h2 {
+h1, h2 {
   font-weight: 600;
   margin-top: 15px;
 }
 
-/* Buttons Styling */
-.buttons,
-#next-button {
+/* --- Buttons Styling --- */
+.buttons {
   display: flex;
   gap: 20px;
   margin-top: 25px;
   justify-content: center;
+}
+
+/* Fixed Next Button to ensure it stays on top and visible */
+#next-button {
+  display: none; 
+  position: fixed; 
+  bottom: 50px;    
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 100;    
+  background: linear-gradient(135deg, #FF8C42, #FFA64D);
+  white-space: nowrap;
 }
 
 button {
@@ -56,6 +66,7 @@ button {
   color: white;
   font-family: inherit;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
@@ -63,17 +74,13 @@ button:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-#yes-button {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
+/* Maintain centering for the fixed button on hover */
+#next-button:hover {
+  transform: translateX(-50%) scale(1.08);
 }
 
-#no-button {
-  background: linear-gradient(135deg, #ff6a6a, #ff8787);
-}
-
-#next-button {
-  background: linear-gradient(135deg, #FF8C42, #FFA64D);
-}
+#yes-button { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+#no-button { background: linear-gradient(135deg, #ff6a6a, #ff8787); }
 
 /* --- Floating Hearts --- */
 .heart {
@@ -86,8 +93,7 @@ button:hover {
   bottom: -50px;
 }
 
-.heart::before,
-.heart::after {
+.heart::before, .heart::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -96,26 +102,12 @@ button:hover {
   border-radius: 50%;
 }
 
-.heart::before {
-  top: -50%;
-  left: 0;
-}
-
-.heart::after {
-  left: 50%;
-  top: 0;
-}
+.heart::before { top: -50%; left: 0; }
+.heart::after { left: 50%; top: 0; }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) rotate(-45deg);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(-130vh) rotate(-45deg);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+  100% { transform: translateY(-130vh) rotate(-45deg); opacity: 0; }
 }
 
 /* --- Envelope & Wax Seal --- */
@@ -138,10 +130,7 @@ button:hover {
 .letter-envelope::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
+  top: 0; left: 0; width: 0; height: 0;
   border-left: 150px solid transparent;
   border-right: 150px solid transparent;
   border-top: 100px solid #FFC107;
@@ -171,89 +160,80 @@ button:hover {
 }
 
 @keyframes pulse {
-
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.2);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }
 
-/* --- Letter Styling (Old Paper) --- */
-/* --- Final Vintage Letter (Using Your Image) --- */
+/* --- Final Vintage Letter --- */
 .letter {
   position: absolute;
-  top: 50%;
+  top: 50%; 
   left: 50%;
   width: 320px;
-  max-height: 450px;
+  max-height: 60vh; /* Limits height to ensure button visibility */
   overflow-y: auto;
   padding: 40px;
 
-  /* Path fixed based on your VS Code explorer */
+  /* Background Image & Texture */
   background: url('../images/istockphoto-1497523070-612x612.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-
-  /* Fallback color to prevent transparency if image fails to load */
   background-color: #f2e2ba; 
 
-  /* Adds aged depth around the edges */
-  box-shadow: 
-    inset 0 0 40px rgba(0, 0, 0, 0.2),
-    0 15px 35px rgba(0, 0, 0, 0.4);
-
+  /* Aged Paper Depth */
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.2), 0 15px 35px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(139, 121, 94, 0.3);
   border-radius: 2px;
 
-  /* Ink Typography */
+  /* Red Pen Typography */
   font-family: "Delicious Handrawn", cursive;
   font-size: 24px;
   color: #d90429; 
   line-height: 1.5;
   text-align: center;
-  /* This shadow makes it look like the ink is slightly heavier in some spots */
-  text-shadow: 0.5px 0.5px 1px rgba(217, 4, 41, 0.2);
+  text-shadow: 0.5px 0.5px 1px rgba(217, 4, 41, 0.1);
   
-  /* Slightly adjust opacity to mimic ink absorption into the old paper */
-  opacity: 0.95;
-
-  /* Animation Logic */
+  /* Initial State */
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%) scale(0.1); 
   transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  z-index: -1;
-}
-
-/* Adjusting the slide-up so it doesn't fly off screen */
-.letter.show {
-  opacity: 1;
-  transform: translate(-50%, -82%) scale(1);
   z-index: 20;
 }
+
+/* Centered Reveal Animation */
+.letter.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1); 
+}
+
+/* Hide scrollbar for a cleaner look */
+.letter::-webkit-scrollbar { display: none; }
 
 /* --- Music Note Floating --- */
 .music-note {
   position: absolute;
-  font-size: 20px;
+  font-size: 24px;
   color: #FFD700;
-  /* yellow */
   pointer-events: none;
+  z-index: 150;
   animation: floatNote 2s ease-out forwards;
 }
 
 @keyframes floatNote {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-30px, -150px) scale(1.5); }
+}
 
-  100% {
-    opacity: 0;
-    transform: translate(-30px, -150px) scale(1.5);
-  }
+/* --- Page 3 Celebration Styling --- */
+#page3 h2 {
+  font-size: 48px;
+  color: #d90429; 
+  animation: bounce 1s infinite;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
