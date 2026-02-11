@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ILY Bebo!</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./public/css/style.css" />
+</head>
+
+<body>
+    <div class="hearts"></div>
+
+    <!-- Page 1 -->
+    <div id="page1" class="page">
+        <div class="container">
+            <div class="banner-gif">
+                <img id="banner" src="./public/images/mid.gif" alt="banner" />
+            </div>
+            <h1 id="question-heading">Will you be my Valentine, Barnali?</h1>
+            <div class="buttons">
+                <button id="yes-button">Yes</button>
+                <button id="no-button">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div id="page2" class="page" style="display:none;">
+        <div class="container">
+            <div class="letter-envelope" id="envelope">
+                <div class="wax-seal" id="seal"></div>
+                <div class="letter" id="letter">
+                    <p id="letter-text" data-text="My dearest Barnali,\n\nI just wanted to say how much I love you!\n\nYours, Ashish
+Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo, eum! Repudiandae illum
+reiciendis doloremque beatae. Cumque, nisi illum enim voluptatem rem minima, saepe
+odit unde earum officia ea architecto?"></p>
+                </div>
+            </div>
+            <button id="next-button" style="display:none;">Next</button>
+            <!-- Background Music -->
+            <audio id="bg-music" src="./public/audio/love-song.mp3" loop></audio>
+        </div>
+    </div>
+
+
+    <!-- Page 3 -->
+    <div id="page3" class="page" style="display:none;">
+        <div class="container">
+            <div class="banner-gif">
+                <img src="./public/images/yes.gif" alt="banner" />
+            </div>
+            <h2>Yeppiee, see you sooonnn :3 </h2>
+        </div>
+    </div>
+
+    <script src="./public/js/script.js"></script>
+</body>
