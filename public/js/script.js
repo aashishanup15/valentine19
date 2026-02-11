@@ -36,6 +36,19 @@ const letter = document.getElementById("letter");
 const seal = document.getElementById("seal");
 const nextBtn = document.getElementById("next-button");
 const bgMusic = document.getElementById("bg-music");
+const muteBtn = document.getElementById("mute-button"); // Mute button selector
+
+let musicNoteInterval;
+let isMuted = false;
+
+// --- Mute Toggle Logic ---
+muteBtn.addEventListener("click", () => {
+  if (bgMusic) {
+    isMuted = !isMuted;
+    bgMusic.muted = isMuted; // Toggle the muted property
+    muteBtn.textContent = isMuted ? "🔇" : "🔊"; // Update button icon
+  }
+});
 
 // --- No Button Logic ---
 const answers_no = {
@@ -53,7 +66,7 @@ noBtn.addEventListener("click", () => {
   if (size < 200) {
     size += 15;
     yesBtn.style.fontSize = (size / 4) + "px";
-    yesBtn.style.padding = "14px 32px"; // Keep padding stable
+    yesBtn.style.padding = "14px 32px";
   }
 });
 
@@ -62,26 +75,6 @@ yesBtn.addEventListener("click", () => {
   page1.style.display = "none";
   page2.style.display = "flex";
   banner.src = "./public/images/yes.gif";
-
-  if (bgMusic) {
-    bgMusic.volume = 0.3;
-    bgMusic.play().catch(() => console.log("Autoplay blocked"));
-
-    const musicNoteInterval = setInterval(() => {
-      const note = document.createElement("div");
-      note.classList.add("music-note");
-      note.textContent = "🎵";
-
-      const letterRect = letter.getBoundingClientRect();
-      note.style.left = (letterRect.left + Math.random() * letterRect.width) + "px";
-      note.style.top = (letterRect.top + letterRect.height / 2) + "px";
-
-      document.body.appendChild(note);
-      setTimeout(() => note.remove(), 2000);
-    }, 500);
-
-    nextBtn.addEventListener("click", () => clearInterval(musicNoteInterval));
-  }
 });
 
 // --- Interaction: Opening the Envelope ---
@@ -89,26 +82,44 @@ envelope.addEventListener("click", () => {
   if (!letter.classList.contains("show")) {
     letter.classList.add("show");
 
+    // Start music and notes only when envelope opens
+    if (bgMusic) {
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => console.log("Autoplay blocked"));
+
+      musicNoteInterval = setInterval(() => {
+        const note = document.createElement("div");
+        note.classList.add("music-note");
+        note.textContent = "🎵";
+
+        const letterRect = letter.getBoundingClientRect();
+        note.style.left = (letterRect.left + Math.random() * letterRect.width) + "px";
+        note.style.top = (letterRect.top + letterRect.height / 2) + "px";
+
+        document.body.appendChild(note);
+        setTimeout(() => note.remove(), 2000);
+      }, 500);
+    }
+
     if (seal) {
       seal.style.opacity = "0";
       seal.style.pointerEvents = "none";
     }
 
-    // --- Fixed Typing Effect for HTML Tags ---
+    // --- Typing Effect with HTML Tag Support ---
     const letterText = document.getElementById("letter-text");
     const fullText = letterText.getAttribute("data-text");
     letterText.innerHTML = "";
 
     let i = 0;
     const typingInterval = setInterval(() => {
-      // Check if we are starting an HTML tag
       if (fullText[i] === "<") {
         let tag = "";
         while (fullText[i] !== ">") {
           tag += fullText[i];
           i++;
         }
-        tag += ">"; // Add the closing bracket
+        tag += ">";
         letterText.innerHTML += tag;
         i++;
       } else {
@@ -124,8 +135,16 @@ envelope.addEventListener("click", () => {
   }
 });
 
-// --- Transition: Page 2 to Page 3 ---
+// --- Transition: Page 2 to Page 3 (Full Stop) ---
 nextBtn.addEventListener("click", () => {
+  if (musicNoteInterval) clearInterval(musicNoteInterval);
+  
+  // Stop and reset the music for a clean transition
+  if (bgMusic) {
+    bgMusic.pause(); // Explicitly pause playback
+    bgMusic.currentTime = 0; // Reset track position
+  }
+  
   page2.style.display = "none";
   page3.style.display = "flex";
 });
